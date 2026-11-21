@@ -18,7 +18,7 @@ def save_by_rows(path, B, block=2048):
 
 def main():
     films, logs = load_data()
-    X, _ = build_matrix(logs, len(films))
+    X = build_matrix(logs, len(films))
     del logs  # free memory for the fit
 
     B = fit(X)

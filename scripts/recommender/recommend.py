@@ -8,7 +8,7 @@ import pandas as pd
 
 from filmmatch.letterboxd import fetch_films
 from filmmatch.paths import DATA_DIR
-from filmmatch.recommender import recommend, user_vector
+from filmmatch.recommender import build_matrix, recommend
 
 
 def main():
@@ -24,10 +24,10 @@ def main():
     seen = profile.merge(films[["slug", "idx"]], on="slug")  # the profile's films the model knows
     print(f"{len(seen)} of the {len(profile)} films on the profile are in the model")
 
-    x = user_vector(seen, len(films))
+    x = build_matrix(seen.assign(userId=0), len(films))  # one row: this user
     most_popular = np.argsort(-popularity)[:skip_top]
     exclude = np.concatenate([seen["idx"].to_numpy(), tv, most_popular])
-    top = recommend(B, x, exclude, popularity)
+    top = recommend(B, x, exclude)
 
     print()
     for i, idx in enumerate(top, 1):
