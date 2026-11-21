@@ -9,6 +9,8 @@ dependencies = [
     "pyarrow",
     "letterboxdpy",
     "sentence-transformers",
+    "fastapi",
+    "uvicorn",
 ]
 
 [build-system]
